@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/ShinyTally/static/css/main.b360f1db.css",
+    "main.js": "/ShinyTally/static/js/main.7c94120b.js",
+    "index.html": "/ShinyTally/index.html",
+    "main.b360f1db.css.map": "/ShinyTally/static/css/main.b360f1db.css.map",
+    "main.7c94120b.js.map": "/ShinyTally/static/js/main.7c94120b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b360f1db.css",
+    "static/js/main.7c94120b.js"
+  ]
+}

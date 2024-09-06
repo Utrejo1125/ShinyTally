@@ -1,0 +1,158 @@
+/* Individual Counter Container */
+.counter-container {
+  width: 100%; /* Take up the full width of the parent */
+  max-width: 800px; /* Optional: Add max-width for larger screens */
+  margin: 0 auto 20px auto; /* Center the counter and add space between rows */
+  padding: 20px;
+  border: 2px solid #ddd;
+  border-radius: 15px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  box-sizing: border-box; /* Include padding in width calculations */
+}
+
+/* Title and Timer Alignment */
+.counter-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+/* Title Styling */
+.title h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2c3e50;
+  margin: 0;
+  margin-top: -10%;
+}
+
+/* Timer Button Styling */
+.timer-button {
+  font-size: 1.5rem;
+  color: #2980b9;
+  font-weight: bold;
+  background-color: #ecf0f1;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.timer-button:hover {
+  background-color: #dfe6e9;
+}
+
+/* Center Pokémon Image and Tally */
+.centered-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.pokemon-image img {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+.counter {
+  display: flex;
+  justify-content: center;
+}
+
+.add {
+  font-size: 2.5rem;
+  padding: 20px 40px;
+  border: none;
+  border-radius: 15px;
+  background-color: #27ae60;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.add:hover {
+  background-color: #2ecc71;
+  transform: scale(1.05);
+}
+
+/* Odds and Probability Styling */
+.odds-probability {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.odds-value,
+.shiny-probability p {
+  font-size: 1.2rem;
+  color: #34495e;
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+/* Settings Panel */
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.settings-panel {
+  width: 100%; /* Make sure all elements have the same width */
+  max-width: 400px;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.settings-panel label,
+.settings-panel input,
+.settings-panel button {
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 1.1rem;
+}
+
+.settings-panel input {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.settings-panel button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.settings-panel button:hover {
+  background-color: #2980b9;
+}
+
+.settings-panel button.delete {
+  background-color: red;
+  color: white;
+}
+
+.settings-panel button.delete:hover {
+  background-color: darkred;
+}

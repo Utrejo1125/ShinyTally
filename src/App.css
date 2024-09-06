@@ -1,0 +1,57 @@
+/* Global Styles */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+/* Parent Container for Counters */
+.counters-container {
+  display: flex;
+  flex-direction: column; /* Stack counters vertically */
+  width: 100%; /* Ensure the container spans the full width */
+  margin: 0 auto;
+  padding: 0;
+  flex-wrap: nowrap; /* Prevent counters from wrapping */
+}
+
+/* Global Button Style */
+button {
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Container styling for consistent layout */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.new-counter-button {
+  font-size: 1.5rem; /* Make the button text larger */
+  padding: 10px 20px; /* Add more padding for a larger button */
+  background-color: black;
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  margin: 0.25%;
+  margin-left: 0.45%;
+}
+
+.new-counter-button:hover {
+  background-color: #303639; /* Darken the blue on hover */
+  transform: scale(1.05); /* Slight scaling effect on hover */
+}
+
+.new-counter-button:active {
+  background-color: #272b2d; /* Even darker on click */
+  transform: scale(0.98); /* Shrink slightly when clicked */
+}

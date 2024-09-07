@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/ShinyTally/static/css/main.4c8de493.css",
-    "main.js": "/ShinyTally/static/js/main.394cde02.js",
+    "main.css": "/ShinyTally/static/css/main.70eef402.css",
+    "main.js": "/ShinyTally/static/js/main.6974bf11.js",
     "static/media/pla_shiny.mp3": "/ShinyTally/static/media/pla_shiny.4d48632d2f66fa9ba451.mp3",
     "index.html": "/ShinyTally/index.html",
-    "main.4c8de493.css.map": "/ShinyTally/static/css/main.4c8de493.css.map",
-    "main.394cde02.js.map": "/ShinyTally/static/js/main.394cde02.js.map"
+    "main.70eef402.css.map": "/ShinyTally/static/css/main.70eef402.css.map",
+    "main.6974bf11.js.map": "/ShinyTally/static/js/main.6974bf11.js.map"
   },
   "entrypoints": [
-    "static/css/main.4c8de493.css",
-    "static/js/main.394cde02.js"
+    "static/css/main.70eef402.css",
+    "static/js/main.6974bf11.js"
   ]
 }

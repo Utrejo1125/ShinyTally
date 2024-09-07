@@ -548,7 +548,7 @@ export const pokemonImages = {
     '547': 'https://img.pokemondb.net/sprites/home/shiny/whimsicott.png',
     '548': 'https://img.pokemondb.net/sprites/home/shiny/petilil.png',
     '549': 'https://img.pokemondb.net/sprites/home/shiny/lilligant.png',
-    '550': 'https://img.pokemondb.net/sprites/home/shiny/basculin-red.png',
+    '550': 'https://img.pokemondb.net/sprites/home/shiny/basculin.png',
     '551': 'https://img.pokemondb.net/sprites/home/shiny/sandile.png',
     '552': 'https://img.pokemondb.net/sprites/home/shiny/krokorok.png',
     '553': 'https://img.pokemondb.net/sprites/home/shiny/krookodile.png',

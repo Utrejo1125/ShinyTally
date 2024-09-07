@@ -95,38 +95,53 @@ button {
 }
 
 .archives-modal {
-  background-color: #fff;
-  padding: 20px;
+  background-color: white;
+  padding: 25px;
   border-radius: 10px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh; /* Limit modal height */
-  overflow-y: auto;  /* Enable vertical scrolling */
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  position: relative;
+  max-width: 700px;
+  width: 95%;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  overflow-y: auto;
+  max-height: 80%;
+  margin: 0 auto;
+  position: relative; /* Make this relative for positioning the close button */
 }
 
 .archives-modal h3 {
-  margin-top: 0;
+  font-size: 2rem;
+  color: #000000;
+  margin-bottom: 20px;
+}
+
+.archived-hunt h4 {
   font-size: 1.5rem;
-  color: #333;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.archived-hunt p {
+  font-size: 1.1rem;
+  margin: 5px 0;
+  color: #34495e;
 }
 
 .close-archive {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: #e74c3c;
+  top: 15px;
+  right: 15px;
+  background-color: #3498db;
   color: white;
-  border: none;
+  padding: 8px 15px;
   border-radius: 5px;
-  padding: 5px 10px;
   cursor: pointer;
+  font-size: 1.1rem;
 }
 
 .close-archive:hover {
-  background-color: #c0392b;
+  background-color: #2980b9;
 }
+
 
 .confirm-overlay {
   position: fixed;
@@ -180,12 +195,168 @@ button {
   width: 30px;
   height: 30px;
   cursor: pointer;
-  font-size: 1.2rem;
-  line-height: 30px; /* Aligns the "X" vertically */
-  text-align: center; /* Centers the "X" horizontally */
-  padding: 0; /* Remove default padding */
+  font-size: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .delete-hunt-button:hover {
   background-color: darkred;
+}
+
+.stats-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.stats-modal {
+  background-color: white;
+  padding: 30px; /* Increased padding for more space */
+  border-radius: 12px; /* Slightly more rounded corners */
+  max-width: 600px; /* Make the modal wider */
+  width: 95%;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Bigger shadow for more depth */
+  text-align: center;
+  overflow-y: auto;
+  max-height: 85%; /* Adjusted max height for more content */
+}
+
+.stats-modal h4 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #3498db;
+}
+
+.stats-modal p {
+  font-size: 1.3rem;
+  margin: 12px 0;
+  color: #34495e;
+}
+
+.stats-modal button {
+  padding: 12px 25px;
+  margin-top: 25px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.stats-modal button:hover {
+  background-color: #2980b9;
+}
+
+.stats-modal button:active {
+  transform: scale(0.97);
+}
+
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.stats-button {
+  font-size: 1.2rem;
+  padding: 12px 25px;
+  background-color: #27ae60;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.stats-button:hover {
+  background-color: #2ecc71;
+}
+
+.stats-button:active {
+  background-color: #1f7a4f;
+  transform: scale(0.98);
+}
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.search-container input {
+  width: 350px;  /* Adjust width as needed */
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  font-size: 1.1rem;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.search-container input:focus {
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);  /* Slight shadow on focus */
+}
+
+.search-container input::placeholder {
+  color: #999;
+  text-align: center;
+}
+
+.search-container .stats-button {
+  margin-bottom: 15px;
+}
+
+.restore-button {
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.restore-button:hover {
+  background-color: #e67e22;
+}
+
+.restore-button:active {
+  background-color: #d35400;
+  transform: scale(0.98);
+}
+
+.sort-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.sort-buttons button {
+  padding: 8px 12px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sort-buttons button:hover {
+  background-color: #2980b9;
 }

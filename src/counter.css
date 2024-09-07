@@ -28,6 +28,7 @@
   margin-top: -10%;
 }
 
+
 /* Timer Button Styling */
 .timer-button {
   font-size: 1.5rem;
@@ -75,8 +76,10 @@
 }
 
 .add {
-  font-size: 2.5rem;
-  padding: 20px 40px;
+  font-size: 2rem;
+  padding: 20px;
+  width: 130px; /* Fixed width */
+  height: 100px; /* Fixed height */
   border: none;
   border-radius: 15px;
   background-color: #27ae60;
@@ -84,12 +87,14 @@
   cursor: pointer;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, transform 0.2s ease;
+  overflow: hidden; /* Ensure text doesn't overflow */
 }
 
 .add:hover {
   background-color: #2ecc71;
   transform: scale(1.05);
 }
+
 
 /* Odds and Probability Styling */
 .odds-probability {
@@ -248,6 +253,48 @@
   }
 }
 
+.shiny-button {
+  font-size: 1.2rem;
+  padding: 10px 25px;
+  background-color: #f1c40f;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  margin-top: 20px;
+}
+
+.shiny-button:hover {
+  background-color: #f39c12;
+  transform: scale(1.05);
+}
+
+.shiny-button:active {
+  background-color: #e67e22;
+  transform: scale(0.98);
+}
+
 .archive-button {
+  font-size: 1.1rem;
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
   margin-left: 5px;
+}
+
+.archive-button:hover {
+  background-color: #2980b9;
+  transform: scale(1.05);
+}
+
+.archive-button:active {
+  background-color: #2471a3;
+  transform: scale(0.98);
 }

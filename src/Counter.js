@@ -157,13 +157,27 @@ function Counter({ counter, onDelete }) {
               onKeyDown={handleTitleSubmit}
               onBlur={() => setIsEditingTitle(false)} // Exit edit mode if input loses focus
               autoFocus
-              style={{ fontSize: 'inherit', width: '${title.length + 1}ch', maxWidth: '100%' }}
+              style={{ fontSize: '1.8rem', fontWeight: 'bold', width: '${title.length + 1}ch', maxWidth: '80%', marginBottom: '5%' }}
             />
           ) : (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <h2>{title || "My Shiny Hunt"}</h2>
-              <FaEdit style={{ marginLeft: '8px', cursor: 'pointer', marginTop: '-10%' }} onClick={() => setIsEditingTitle(true)} />
-              <FaCog style={{ marginLeft: '8px', cursor: 'pointer', marginTop: '-10%' }} onClick={() => setShowSettings(!showSettings)} />
+              <FaEdit 
+                style={{ 
+                  fontSize: '1.3rem',
+                  marginLeft: '8px', 
+                  cursor: 'pointer', 
+                  marginTop: '-10%' 
+                }} 
+                onClick={() => setIsEditingTitle(true)} />
+              <FaCog 
+                style={{ 
+                  fontSize: '1.3rem',
+                  marginLeft: '8px', 
+                  cursor: 'pointer', 
+                  marginTop: '-10%' 
+                }} 
+                onClick={() => setShowSettings(!showSettings)} />
             </div>
           )}
         </div>

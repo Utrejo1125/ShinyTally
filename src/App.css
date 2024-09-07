@@ -55,3 +55,137 @@ button {
   background-color: #272b2d; /* Even darker on click */
   transform: scale(0.98); /* Shrink slightly when clicked */
 }
+
+.toggle-archive-button {
+  font-size: 1.5rem; /* Make the button text larger */
+  padding: 10px 20px; /* Add more padding for a larger button */
+  background-color: black;
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  margin: 0.25%;
+  position: absolute;
+  right: 5px; /* Position to the top right */
+}
+
+.toggle-archive-button:hover {
+  background-color: #303639;
+  transform: scale(1.05);
+}
+
+.toggle-archive-button:active {
+  background-color: #272b2d;
+  transform: scale(0.98);
+}
+
+.archives-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.archives-modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80vh; /* Limit modal height */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.archives-modal h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.close-archive {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.close-archive:hover {
+  background-color: #c0392b;
+}
+
+.confirm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.confirm-modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.confirm-modal h4 {
+  margin-bottom: 20px;
+}
+
+.confirm-modal button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.archived-hunt {
+  position: relative;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.delete-hunt-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  line-height: 30px; /* Aligns the "X" vertically */
+  text-align: center; /* Centers the "X" horizontally */
+  padding: 0; /* Remove default padding */
+}
+
+.delete-hunt-button:hover {
+  background-color: darkred;
+}

@@ -8,6 +8,8 @@ import { pokemonOptions, pokemonImages } from './PokemonData';  // Import Pokém
 import './counter.css';
 import { Input } from 'react-select/animated';
 
+import sound from './public/sounds/pla_shiny.mp3'
+
 // Counter component
 function Counter({ counter, onDelete }) {
   const [value, setValue] = useState(counter.value)
@@ -21,6 +23,8 @@ function Counter({ counter, onDelete }) {
   const [timer, setTimer] = useState(counter.timer || 0);  // Initialize with the timer from IndexedDB
   const [isRunning, setIsRunning] = useState(false);
   const [showSettings, setShowSettings] = useState(false); // State to toggle settings visibility
+  const [isShiny, setIsShiny] = useState(false);
+  const [archivedHunts, setArchivedHunts] = useState([]);
 
   const timerRef = useRef(null);
   const startTimeRef = useRef(null);
@@ -30,6 +34,14 @@ function Counter({ counter, onDelete }) {
       return 1 - Math.pow((1 - 1 / odds), encounters);
     }
     return 0;
+  };
+
+  const toggleShiny = () => {
+    const shinySound = new Audio(sound);
+    setIsShiny(!isShiny);
+    if (!isShiny) {
+      shinySound.play()
+    }
   };
 
   const shinyProbability = calculateShinyProbability(value, odds);
@@ -108,6 +120,28 @@ function Counter({ counter, onDelete }) {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(milliseconds).padStart(3, '0')}`;
   };
 
+  //Archiving things
+  const handleArchive = async () => {
+    // Save the current hunt in an archive table or a "completed" state in your DB
+    db.archivedHunts.add({
+      title,
+      selectedPokemon,
+      value,
+      odds,
+      timer,
+      date: new Date(), // Optional: Archive date
+    });
+
+    // Optionally delete or mark the current hunt as archived from the active counters
+    await db.counters.delete(counter.id);
+    onDelete();
+  };
+
+  useEffect(() => {
+    db.archivedHunts.toArray().then(setArchivedHunts).catch(console.error);
+  }, []);
+
+
   return (
     <div className="counter-container">
 
@@ -150,6 +184,16 @@ function Counter({ counter, onDelete }) {
         {selectedPokemon && (
           <div className="pokemon-image">
             <img src={pokemonImages[selectedPokemon]} alt="Selected Pokémon" />
+            {isShiny && (
+              <div class="shiny-container">
+                {/* Multiple sparkles at different positions */}
+                <div className="star large" style={{ top: '10px', left: '40px' }}></div>
+                <div className="star medium" style={{ top: '30px', left: '80px' }}></div>
+                <div className="star small" style={{ top: '50px', left: '20px' }}></div>
+                <div className="star large" style={{ top: '70px', left: '60px' }}></div>
+                <div className="star medium" style={{ top: '90px', left: '40px' }}></div>
+              </div>
+            )}
           </div>
         )}
 
@@ -165,6 +209,18 @@ function Counter({ counter, onDelete }) {
         <span className='odds-value'>Odds: 1 in {odds}</span>
         <p>Shiny Probability: {(shinyProbability * 100).toFixed(2)}%</p>
       </div>
+
+      {/* Shiny Button */}
+      <button className='shiny-button' onClick={toggleShiny}>
+        {isShiny ? 'Undo Shiny...' : 'Shiny Found!'}
+      </button>
+
+      {/* Archive Button */}
+      {isShiny && (
+        <button className='archive-button' onClick={handleArchive}>
+          Archive Hunt
+        </button>
+      )}
 
       {/* Display Settings Panel that will contain most options*/}
       {showSettings && (
@@ -185,6 +241,7 @@ function Counter({ counter, onDelete }) {
                 onChange={(selectedOption) => setSelectedPokemon(selectedOption ? selectedOption.value : '')}
                 placeholder="Choose a Pokémon"
                 isClearable
+                maxMenuHeight={275}
               />
             </div>
 

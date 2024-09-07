@@ -53,6 +53,11 @@
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+  position: relative;
+}
+
+.pokemon-image {
+  position: relative;
 }
 
 .pokemon-image img {
@@ -60,6 +65,8 @@
   height: 150px;
   object-fit: contain;
   margin-right: 20px;
+  margin-top: -50px;
+  z-index: -1;
 }
 
 .counter {
@@ -155,4 +162,92 @@
 
 .settings-panel button.delete:hover {
   background-color: darkred;
+}
+
+.counter-container {
+  position: relative; /* Ensure the container can position elements relative to itself */
+}
+
+.bottom-left {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.animate-button {
+  padding: 10px 20px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.animate-button:hover {
+  background-color: #2980b9;
+}
+
+.animate-button:active {
+  transform: scale(0.95); /* Slight shrink on press */
+}
+
+.shiny-container {
+  position: absolute;
+  top: -10px; /* Adjust positioning */
+  left: 18px;
+  width: 180px;
+  height: 180px;
+  pointer-events: none; /* Prevent interactions */
+  z-index: 2; /* Ensure stars are above the image */
+}
+
+.star {
+  position: absolute;
+  background-color: yellow;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%, 
+    79% 91%, 50% 70%, 21% 91%, 32% 57%, 
+    2% 35%, 39% 35%
+  );
+  opacity: 0;
+  animation: sparkle-fade 2s infinite ease-in-out; /* Sparkle fades */
+  pointer-events: none;
+}
+
+.star.large {
+  width: 30px;
+  height: 30px;
+  animation-delay: 0s;
+}
+
+.star.medium {
+  width: 20px;
+  height: 20px;
+  animation-delay: 0.5s;
+}
+
+.star.small {
+  width: 15px;
+  height: 15px;
+  animation-delay: 1s;
+}
+
+@keyframes sparkle-fade {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.archive-button {
+  margin-left: 5px;
 }

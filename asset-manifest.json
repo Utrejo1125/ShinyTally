@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ShinyTally/static/css/main.e723f7ac.css",
-    "main.js": "/ShinyTally/static/js/main.5d89651c.js",
+    "main.js": "/ShinyTally/static/js/main.ffdf4f57.js",
     "static/media/archive-sound.mp3": "/ShinyTally/static/media/archive-sound.56be1fa72fa6e2943378.mp3",
     "static/media/tally-click.mp3": "/ShinyTally/static/media/tally-click.53f9ff2bc647b31cf8cd.mp3",
     "static/media/delete.mp3": "/ShinyTally/static/media/delete.8a0b454eac52e647b2bd.mp3",
@@ -13,10 +13,10 @@
     "static/media/open_menu.mp3": "/ShinyTally/static/media/open_menu.a194cd079a32d8ca571b.mp3",
     "index.html": "/ShinyTally/index.html",
     "main.e723f7ac.css.map": "/ShinyTally/static/css/main.e723f7ac.css.map",
-    "main.5d89651c.js.map": "/ShinyTally/static/js/main.5d89651c.js.map"
+    "main.ffdf4f57.js.map": "/ShinyTally/static/js/main.ffdf4f57.js.map"
   },
   "entrypoints": [
     "static/css/main.e723f7ac.css",
-    "static/js/main.5d89651c.js"
+    "static/js/main.ffdf4f57.js"
   ]
 }

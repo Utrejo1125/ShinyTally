@@ -1,14 +1,22 @@
 {
   "files": {
-    "main.css": "/ShinyTally/static/css/main.70eef402.css",
-    "main.js": "/ShinyTally/static/js/main.6974bf11.js",
+    "main.css": "/ShinyTally/static/css/main.e723f7ac.css",
+    "main.js": "/ShinyTally/static/js/main.5d89651c.js",
+    "static/media/archive-sound.mp3": "/ShinyTally/static/media/archive-sound.56be1fa72fa6e2943378.mp3",
+    "static/media/tally-click.mp3": "/ShinyTally/static/media/tally-click.53f9ff2bc647b31cf8cd.mp3",
+    "static/media/delete.mp3": "/ShinyTally/static/media/delete.8a0b454eac52e647b2bd.mp3",
+    "static/media/close_menu.mp3": "/ShinyTally/static/media/close_menu.1141226a74000783a519.mp3",
+    "static/media/timer_sound.mp3": "/ShinyTally/static/media/timer_sound.90decdb4f0208331e71c.mp3",
+    "static/media/newhuntsound.mp3": "/ShinyTally/static/media/newhuntsound.5c219a171c4042c53080.mp3",
     "static/media/pla_shiny.mp3": "/ShinyTally/static/media/pla_shiny.4d48632d2f66fa9ba451.mp3",
+    "static/media/restore.mp3": "/ShinyTally/static/media/restore.90f8a2114ea0e442934b.mp3",
+    "static/media/open_menu.mp3": "/ShinyTally/static/media/open_menu.a194cd079a32d8ca571b.mp3",
     "index.html": "/ShinyTally/index.html",
-    "main.70eef402.css.map": "/ShinyTally/static/css/main.70eef402.css.map",
-    "main.6974bf11.js.map": "/ShinyTally/static/js/main.6974bf11.js.map"
+    "main.e723f7ac.css.map": "/ShinyTally/static/css/main.e723f7ac.css.map",
+    "main.5d89651c.js.map": "/ShinyTally/static/js/main.5d89651c.js.map"
   },
   "entrypoints": [
-    "static/css/main.70eef402.css",
-    "static/js/main.6974bf11.js"
+    "static/css/main.e723f7ac.css",
+    "static/js/main.5d89651c.js"
   ]
 }

@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Counter from './Counter';
 import { db } from './db';
 import './App.css';
 import { pokemonOptions, pokemonImages } from './PokemonData';  // Import Pokémon data
+
+import newhuntsound from './public/sounds/newhuntsound.mp3';
+import restoresound from './public/sounds/restore.mp3';
+import deletesound from './public/sounds/delete.mp3';
+import menusound from './public/sounds/open_menu.mp3';
+import closemenusound from './public/sounds/close_menu.mp3';
 
 export default function CounterMaker() {
   const [counters, setCounters] = useState([]);
@@ -13,7 +19,6 @@ export default function CounterMaker() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showStats, setShowStats] = useState(false);
   const [stats, setStats] = useState(null);  // To store stats
-
   const [sortDirection, setSortDirection] = useState({
     name: true,
     time: true,
@@ -22,6 +27,19 @@ export default function CounterMaker() {
     odds: true
   });
   
+  const newHuntRef = useRef(null);
+  const restoreSoundRef = useRef(null);
+  const deleteSoundRef = useRef(null);
+  const menuSoundRef = useRef(null);
+  const closeMenuSoundRef = useRef(null);
+
+  useEffect(() => {
+    newHuntRef.current = new Audio(newhuntsound);
+    restoreSoundRef.current = new Audio(restoresound);
+    deleteSoundRef.current = new Audio(deletesound);
+    menuSoundRef.current = new Audio(menusound);
+    closeMenuSoundRef.current = new Audio(closemenusound);
+  }, []);
 
   // Load counters from IndexedDB when the component mounts
   useEffect(() => {
@@ -41,6 +59,8 @@ export default function CounterMaker() {
   }, [showArchives]);  // Reload archives when toggling
 
   const addCounter = async () => {
+    newHuntRef.current.play();
+
     const id = await db.counters.add({ value: 0, title: '', odds: 0, selectedPokemon: '', timer: 0 });  // Initialize timer as 0
     const newCounter = await db.counters.get(id); // Get the newly added counter
     setCounters([...counters, newCounter]); // Update state with the new counter
@@ -57,6 +77,8 @@ export default function CounterMaker() {
   };
 
   const handleDelete = async () => {
+    deleteSoundRef.current.play();
+
     if (huntToDelete) {
       await db.archivedHunts.delete(huntToDelete);
       setArchivedHunts(archivedHunts.filter(hunt => hunt.id !== huntToDelete));
@@ -74,6 +96,8 @@ export default function CounterMaker() {
   };
 
   const restoreHunt = async (id) => {
+    restoreSoundRef.current.play();
+
     const huntToRestore = await db.archivedHunts.get(id);
 
     // Add the hunt back to counters table
@@ -141,6 +165,29 @@ export default function CounterMaker() {
     });
   };  
 
+  const showArchiveMenu = () => {
+    menuSoundRef.current.play();
+    setShowArchives(!showArchives);
+  }
+
+  const closeArchiveMenu = () => {
+    closeMenuSoundRef.current.play();
+    setShowArchives(false)
+  }
+
+  const showStatsMenu = () => {
+    menuSoundRef.current.play();
+
+    const calculatedStats = calculateStats();
+    setStats(calculatedStats);
+    setShowStats(true);
+  }
+
+  const closeStatsMenu = () => {
+    closeMenuSoundRef.current.play();
+    setShowStats(false)
+  }
+
   //calculates different stats that will be shown to user
   const calculateStats = () => {
     if (archivedHunts.length === 0) return null;
@@ -190,8 +237,6 @@ export default function CounterMaker() {
     };
   };
 
-
-
   return (
     <div>
       <div className='button-container' style={{ position: 'relative' }}>
@@ -200,8 +245,8 @@ export default function CounterMaker() {
           New Shiny Hunt
         </button>
 
-        <button className='toggle-archive-button' onClick={() => setShowArchives(!showArchives)}>
-          {showArchives ? 'Hide Archives' : 'Show Archives'}
+        <button className='toggle-archive-button' onClick={showArchiveMenu}>
+          {'Show Archives'}
         </button>
       </div>
 
@@ -219,20 +264,16 @@ export default function CounterMaker() {
         <div className="archives-overlay" onClick={() => setShowArchives(false)}>
           <div className="archives-modal" onClick={(e) => e.stopPropagation()}> {/* Prevent modal close on content click */}
             <h3>Archived Hunts</h3>
-            <button className="close-archive" onClick={() => setShowArchives(false)}>Close</button>
+            <button className="close-archive" onClick={closeArchiveMenu}>Close</button>
 
             <div className='search-container'>
-              <button className='stats-button' onClick={() => {
-                const calculatedStats = calculateStats();
-                setStats(calculatedStats);
-                setShowStats(true);
-              }}>Show Stats</button>
+              <button className='stats-button' onClick={showStatsMenu}>Show Stats</button>
 
               <div className="sort-buttons">
                 <button onClick={() => handleSort('name')}>Sort by Name</button>
                 <button onClick={() => handleSort('time')}>Sort by Time</button>
-                <button onClick={() => handleSort('date')}>Sort by Date</button>
                 <button onClick={() => handleSort('encounters')}>Sort by Encounters</button>
+                <button onClick={() => handleSort('date')}>Sort by Date</button>
                 <button onClick={() => handleSort('odds')}>Sort by Odds</button>
               </div>
 
@@ -283,7 +324,7 @@ export default function CounterMaker() {
             <p>Longest Time Spent on a Hunt: {stats.longestByTimer?.title} ({formatTime(stats.longestByTimer?.timer)})</p>
             <p>Luckiest Hunt: {stats.lowestProbabilityHunt?.title} {pokemonOptions.find(p => p.value === stats.lowestProbabilityHunt?.selectedPokemon)?.label || 'Unknown Pokémon'} ({(stats.lowestProbabilityHunt?.probability * 100).toFixed(2)}% chance to shine)</p>
             <p>Unluckiest Hunt: {stats.highestProbabilityHunt?.title} {pokemonOptions.find(p => p.value === stats.highestProbabilityHunt?.selectedPokemon)?.label || 'Unknown Pokémon'} ({(stats.highestProbabilityHunt?.probability * 100).toFixed(2)}%)</p>
-            <button onClick={() => setShowStats(false)}>Close</button>
+            <button onClick={closeStatsMenu}>Close</button>
           </div>
         </div>
       )}

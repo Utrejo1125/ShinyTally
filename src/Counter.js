@@ -8,13 +8,20 @@ import { pokemonOptions, pokemonImages } from './PokemonData';  // Import Pokém
 import './counter.css';
 import { Input } from 'react-select/animated';
 
-import sound from './public/sounds/pla_shiny.mp3'
+import shinysound from './public/sounds/pla_shiny.mp3';
+import archivesound from './public/sounds/archive-sound.mp3';
+import tallysound from './public/sounds/tally-click.mp3';
+import deletesound from './public/sounds/delete.mp3';
+import menusound from './public/sounds/open_menu.mp3';
+import closemenusound from './public/sounds/close_menu.mp3';
+import timersound from './public/sounds/timer_sound.mp3';
 
 // Counter component
 function Counter({ counter, onDelete }) {
   const [value, setValue] = useState(counter.value)
   const [incrementValue, setIncrementValue] = useState(counter.increment || 1);  // Load increment from database or default to 1
-  const [odds, setOdds] = useState(counter.odds);
+  const [odds, setOdds] = useState(counter.odds || 4096);
+  const [customOdds, setCustomOdds] = useState('')
   const [inputValue, setInputValue] = useState('');
   const [oddsValue, setOddsValue] = useState('');
   const [title, setTitle] = useState(counter.title);
@@ -28,6 +35,43 @@ function Counter({ counter, onDelete }) {
 
   const timerRef = useRef(null);
   const startTimeRef = useRef(null);
+  const shinySoundRef = useRef(null);
+  const archiveSoundRef = useRef(null);
+  const deleteSoundRef = useRef(null);
+  const menuSoundRef = useRef(null);
+  const closeMenuSoundRef = useRef(null);
+
+  // Preset odds options
+  const presetOddsOptions = [
+    { value: 8192, label: '1 in 8192 (Base Odds in Gen V and Earlier)' },
+    { value: 4096, label: '1 in 4096 (Base Odds in Gen VI and Later)' },
+    { value: 2048.25, label: '1 in 2048.25 (Meal Power 1)' },
+    { value: 2048, label: '1 in 2048 (Mass Outbreak 30+ [S/V])' },
+    { value: 1638.4, label: '1 in 1638.4 (Masuda Method in Gen IV)' },
+    { value: 1365.67, label: '1 in 1365.67 (Shiny Charm in Gen VI and Later, Mass Outbreak 60+ [S/V], Mass Outbreak 30+ [S/V] with Meal Power 1, Masuda Method in Gen V)' },
+    { value: 1024.38, label: '1 in 1024.38 (Mass Outbreak 30+ [S/V] with Shiny Charm, Meal Power 1 with Shiny Charm, Mass Outbreak 60+ [S/V] with Meal Power 1, Meal Power 3)' },
+    { value: 1024, label: '1 in 1024 (Masuda Method in Gen V with Shiny Charm)' },
+    { value: 819.6, label: '1 in 819.6 (Mass Outbreak 60+ [S/V] with Shiny Charm, Mass Outbreak 30+ [S/V] with Shiny Charm and Meal Power 1, Mass Outbreak 30+ [S/V] with Meal Power 3, Mass Outbreak 60+ [S/V] with Meal Power 3)' },
+    { value: 682.6, label: '1 in 682.6 (Masuda Method, Mass Outbreak 60+ [S/V] with Shiny Charm and Meal Power 1, Shiny Charm and Meal Power 3)' },
+    { value: 587.57, label: '1 in 587.57 (Mass Outbreak 30+ [S/V] with Shiny Charm and Meal Power 3)' },
+    { value: 512.44, label: '1 in 512.44 (Masuda Method with Shiny Charm, Mass Outbreak 60+ [S/V] with Shiny Charm and Meal Power 3)' },
+    { value: 300, label: '1 in 300 (Dynamax Adventures)' },
+    { value: 100, label: '1 in 100 (Dynamax Adventures with Shiny Charm)' },
+  ];
+
+  // Preload sounds
+  useEffect(() => {
+    shinySoundRef.current = new Audio(shinysound);
+    archiveSoundRef.current = new Audio(archivesound);
+    deleteSoundRef.current = new Audio(deletesound);
+    menuSoundRef.current = new Audio(menusound);
+    closeMenuSoundRef.current = new Audio(closemenusound);
+  }, []);
+
+  const handleDeleteCounter = () => {
+    deleteSoundRef.current.play();
+    onDelete();
+  }
 
   const calculateShinyProbability = (encounters, odds) => {
     if (odds && encounters > 0) {
@@ -37,10 +81,9 @@ function Counter({ counter, onDelete }) {
   };
 
   const toggleShiny = () => {
-    const shinySound = new Audio(sound);
     setIsShiny(!isShiny);
     if (!isShiny) {
-      shinySound.play()
+      shinySoundRef.current.play()
     }
   };
 
@@ -72,10 +115,19 @@ function Counter({ counter, onDelete }) {
 
   const handleAdd = () => {
     setValue(prevValue => prevValue + incrementValue);  // Use the increment value to add to counter
+    const tallySound = new Audio(tallysound);  // Create a new audio instance each time
+    tallySound.play();
   };
 
   const handleReset = () => {
     setValue(0);
+  };
+
+  const handlePresetOddsChange = (selectedOption) => {
+    if (selectedOption) {
+      setOdds(selectedOption.value);
+      setCustomOdds('') //Clear the custom odds input
+    }
   };
 
   const handleOddsChange = (e) => {
@@ -84,8 +136,8 @@ function Counter({ counter, onDelete }) {
 
   const handleOddsInput = (e) => {
     if (e.key === 'Enter') {
-      const newOddsValue = parseInt(oddsValue, 10);
-      if (!isNaN(newOddsValue)) {
+      const newOddsValue = parseFloat(oddsValue);
+      if (!isNaN(newOddsValue) && newOddsValue > 0) {
         setOdds(newOddsValue);
       }
       setOddsValue('');
@@ -103,6 +155,8 @@ function Counter({ counter, onDelete }) {
   };
 
   const handleStartPause = () => {
+    const timerSound = new Audio(timersound);
+    timerSound.play();
     setIsRunning(!isRunning);
   };
 
@@ -110,6 +164,16 @@ function Counter({ counter, onDelete }) {
     setIsRunning(false);
     setTimer(0);
   };
+
+  const openSettings = () => {
+    setShowSettings(!showSettings)
+    menuSoundRef.current.play();
+  }
+
+  const closeSettingsMenu = () => {
+    setShowSettings(false)
+    closeMenuSoundRef.current.play();
+  }
 
   const formatTime = (time) => {
     const milliseconds = time % 1000;
@@ -122,6 +186,8 @@ function Counter({ counter, onDelete }) {
 
   //Archiving things
   const handleArchive = async () => {
+    archiveSoundRef.current.play();
+
     // Save the current hunt in an archive table or a "completed" state in your DB
     db.archivedHunts.add({
       title,
@@ -140,6 +206,30 @@ function Counter({ counter, onDelete }) {
   useEffect(() => {
     db.archivedHunts.toArray().then(setArchivedHunts).catch(console.error);
   }, []);
+
+  //Inline Styling for Select
+  const customSelectStyles = {
+    control: (provided) => ({
+      ...provided,
+      border: '1px solid #ddd',
+      borderRadius: '8px',
+      padding: '5px',
+      fontSize: '1.1rem',
+      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: '8px',
+      boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      padding: '10px',
+      backgroundColor: state.isFocused ? '#3498db' : '#fff',
+      color: state.isFocused ? '#fff' : '#34495e',
+      cursor: 'pointer',
+    }),
+  };
 
 
   return (
@@ -162,22 +252,22 @@ function Counter({ counter, onDelete }) {
           ) : (
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <h2>{title || "My Shiny Hunt"}</h2>
-              <FaEdit 
-                style={{ 
+              <FaEdit
+                style={{
                   fontSize: '1.3rem',
-                  marginLeft: '8px', 
-                  cursor: 'pointer', 
-                  marginTop: '-10%' 
-                }} 
+                  marginLeft: '8px',
+                  cursor: 'pointer',
+                  marginTop: '-10%'
+                }}
                 onClick={() => setIsEditingTitle(true)} />
-              <FaCog 
-                style={{ 
+              <FaCog
+                style={{
                   fontSize: '1.3rem',
-                  marginLeft: '8px', 
-                  cursor: 'pointer', 
-                  marginTop: '-10%' 
-                }} 
-                onClick={() => setShowSettings(!showSettings)} />
+                  marginLeft: '8px',
+                  cursor: 'pointer',
+                  marginTop: '-10%'
+                }}
+                onClick={openSettings} />
             </div>
           )}
         </div>
@@ -242,7 +332,7 @@ function Counter({ counter, onDelete }) {
           <div className='settings-panel' onClick={(e) => e.stopPropagation()}> {/* Prevent closing when clicking inside the panel */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <h3>Settings</h3>
-              <FaTimes style={{ cursor: 'pointer' }} onClick={() => setShowSettings(false)} />
+              <FaTimes style={{ cursor: 'pointer' }} onClick={closeSettingsMenu} />
             </div>
             <hr />
 
@@ -250,12 +340,13 @@ function Counter({ counter, onDelete }) {
             <div className="pokemon-selector">
               <label>Select Pokémon:</label>
               <Select
+                styles={customSelectStyles}
                 options={pokemonOptions}
                 value={pokemonOptions.find(p => p.value === selectedPokemon)}
                 onChange={(selectedOption) => setSelectedPokemon(selectedOption ? selectedOption.value : '')}
                 placeholder="Choose a Pokémon"
                 isClearable
-                maxMenuHeight={275}
+                maxMenuHeight={350}
               />
             </div>
 
@@ -263,6 +354,7 @@ function Counter({ counter, onDelete }) {
             <div className="increment-input" style={{ marginTop: '10px' }}>
               <label>Increment Value:</label>
               <input
+                className='input-style'
                 type="number"
                 value={incrementValue}
                 onChange={handleIncrementChange}
@@ -272,12 +364,30 @@ function Counter({ counter, onDelete }) {
 
             {/* Odds Input */}
             <div className="odds-field">
+              <label>Select Preset Odds:</label>
+              <Select
+                styles={customSelectStyles}
+                options={presetOddsOptions}
+                onChange={(selectedOption) => {
+                  if (selectedOption) {
+                    handlePresetOddsChange(selectedOption);  // Handle selected odds
+                  } else {
+                    setOdds(4096);  // Reset to 4096 when the selection is cleared
+                  }
+                }}
+                value={presetOddsOptions.find(option => option.value === odds)}
+                placeholder='Choose Odds'
+                isClearable
+                maxMenuHeight={180}
+              />
+
               <input
+                className='input-style'
                 type="text"
                 value={oddsValue}
                 onChange={handleOddsChange}
                 onKeyDown={handleOddsInput}
-                placeholder="Enter your odds: 1 in ..."
+                placeholder="Enter custom odds: 1 in ..."
               />
             </div>
 
@@ -291,7 +401,7 @@ function Counter({ counter, onDelete }) {
 
             {/* Remove Counter */}
             <div className="remove">
-              <button style={{ marginTop: '5px', background: 'red', color: 'white' }} onClick={onDelete}>Delete Counter</button>
+              <button style={{ marginTop: '5px', background: 'red', color: 'white' }} onClick={handleDeleteCounter}>Delete Counter</button>
             </div>
           </div>
         </div>

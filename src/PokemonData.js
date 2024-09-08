@@ -1026,9 +1026,9 @@ export const pokemonImages = {
 }
 
 export const pokemonOptions = [
-    { value: '001', label: 'Bulbasaur' },
-    { value: '002', label: 'Ivysaur' },
-    { value: '003', label: 'Venusaur' },
+    { value:'001', label: 'Bulbasaur' },
+    { value:'002', label: 'Ivysaur' },
+    { value:'003', label: 'Venusaur' },
     { value:'004', label: 'Charmander' },
     { value:'005', label: 'Charmeleon' },
     { value:'006', label: 'Charizard' },

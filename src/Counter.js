@@ -211,6 +211,9 @@ function Counter({ counter, onDelete }) {
   const customSelectStyles = {
     control: (provided) => ({
       ...provided,
+      width: '100%', // Ensures the select takes full width of the container
+      minWidth: '250px', // Prevents it from becoming too narrow
+      maxWidth: '100%', // Prevents expanding beyond the panel width
       border: '1px solid #ddd',
       borderRadius: '8px',
       padding: '5px',
@@ -228,6 +231,10 @@ function Counter({ counter, onDelete }) {
       backgroundColor: state.isFocused ? '#3498db' : '#fff',
       color: state.isFocused ? '#fff' : '#34495e',
       cursor: 'pointer',
+    }),
+    input: (provided) => ({
+      ...provided,
+      minWidth: '250px', // Ensures input doesn't shrink when typing
     }),
   };
 

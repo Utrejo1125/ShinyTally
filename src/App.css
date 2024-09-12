@@ -81,6 +81,110 @@ button {
   transform: scale(0.98);
 }
 
+.export-active-button {
+  font-size: 1.5rem; /* Make the button text larger */
+  padding: 10px 20px; /* Add more padding for a larger button */
+  background-color: black;
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  margin: 0.25%;
+  position: absolute;
+  right: 5px; /* Position to the top right */
+}
+
+.export-active-button:hover {
+  background-color: #303639;
+  transform: scale(1.05);
+}
+
+.export-active-button:active {
+  background-color: #272b2d;
+  transform: scale(0.98);
+}
+
+.import-active-button {
+  font-size: 1.5rem; /* Make the button text larger */
+  padding: 10px 20px; /* Add more padding for a larger button */
+  background-color: black;
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  margin: 0.25%;
+  position: absolute;
+  right: 5px; /* Position to the top right */
+  top: 112px;
+}
+
+.import-active-button:hover {
+  background-color: #303639;
+  transform: scale(1.05);
+}
+
+.import-active-button:active {
+  background-color: #272b2d;
+  transform: scale(0.98);
+}
+
+.export-archived-button {
+  font-size: 1.5rem; /* Make the button text larger */
+  padding: 10px 20px; /* Add more padding for a larger button */
+  background-color: black;
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  margin: 0.25%;
+  position: absolute;
+  right: 5px; /* Position to the top right */
+  top: 168px;
+}
+
+.export-archived-button:hover {
+  background-color: #303639;
+  transform: scale(1.05);
+}
+
+.export-archived-button:active {
+  background-color: #272b2d;
+  transform: scale(0.98);
+}
+
+.import-archived-button {
+  font-size: 1.5rem; /* Make the button text larger */
+  padding: 10px 20px; /* Add more padding for a larger button */
+  background-color: black;
+  color: white; /* White text */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Rounded corners */
+  cursor: pointer; /* Pointer cursor on hover */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+  margin: 0.25%;
+  position: absolute;
+  right: 5px; /* Position to the top right */
+  top: 224px;
+}
+
+.import-archived-button:hover {
+  background-color: #303639;
+  transform: scale(1.05);
+}
+
+.import-archived-button:active {
+  background-color: #272b2d;
+  transform: scale(0.98);
+}
+
+
 .archives-overlay {
   position: fixed;
   top: 0;

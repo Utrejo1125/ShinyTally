@@ -3,6 +3,7 @@ import Counter from './Counter';
 import { db } from './db';
 import './App.css';
 import { pokemonOptions, pokemonImages } from './PokemonData';  // Import Pokémon data
+import { MdOutlineSettingsSuggest } from "react-icons/md";
 
 import newhuntsound from './public/sounds/newhuntsound.mp3';
 import restoresound from './public/sounds/restore.mp3';
@@ -19,6 +20,7 @@ export default function CounterMaker() {
   const [searchTerm, setSearchTerm] = useState('');
   const [showStats, setShowStats] = useState(false);
   const [stats, setStats] = useState(null);  // To store stats
+  const [showExportSettings, setShowExportSettings] = useState(false);
   const [sortDirection, setSortDirection] = useState({
     name: true,
     time: true,
@@ -26,7 +28,7 @@ export default function CounterMaker() {
     encounters: true,
     odds: true
   });
-  
+
   const newHuntRef = useRef(null);
   const restoreSoundRef = useRef(null);
   const deleteSoundRef = useRef(null);
@@ -137,7 +139,7 @@ export default function CounterMaker() {
   const handleSort = (criterion) => {
     let sortedHunts = [...archivedHunts];
     const isAscending = sortDirection[criterion];
-  
+
     switch (criterion) {
       case 'name':
         sortedHunts.sort((a, b) => isAscending ? a.title.localeCompare(b.title) : b.title.localeCompare(a.title));
@@ -157,13 +159,13 @@ export default function CounterMaker() {
       default:
         break;
     }
-  
+
     setArchivedHunts(sortedHunts);
     setSortDirection({
       ...sortDirection,
       [criterion]: !isAscending
     });
-  };  
+  };
 
   const showArchiveMenu = () => {
     menuSoundRef.current.play();
@@ -237,18 +239,125 @@ export default function CounterMaker() {
     };
   };
 
+  const toggleShowExportSettings = () => {
+    setShowExportSettings(!showExportSettings);
+  }
+
+  const exportActiveHunts = async () => {
+    const activeHunts = await db.counters.toArray(); // Fetch all active hunts
+    const sanitizedHunts = activeHunts.map(({ id, ...hunt }) => hunt); // Exclude the `id`
+    const json = JSON.stringify(sanitizedHunts, null, 2); // Convert to JSON
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'active_hunts.json';
+    a.click();
+  };
+
+  const importActiveHunts = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const hunts = JSON.parse(e.target.result);
+      await db.counters.bulkAdd(hunts); // Add all imported hunts to the database
+
+      window.location.reload();  // Refresh the page after import
+
+      alert('Active hunts imported successfully');
+    };
+    reader.readAsText(file);
+  }
+
+  const exportArchivedHunts = async () => {
+    const archivedHunts = await db.archivedHunts.toArray(); // Fetch all archived hunts
+    const sanitizedHunts = archivedHunts.map(({ id, ...hunt }) => hunt); // Exclude the `id`
+    const json = JSON.stringify(sanitizedHunts, null, 2); // Convert to JSON
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'archived_hunts.json';
+    a.click();
+  }
+
+  const importArchivedHunts = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const hunts = JSON.parse(e.target.result);
+      await db.archivedHunts.bulkAdd(hunts); // Add all imported hunts to the database
+
+      window.location.reload();  // Refresh the page after import
+
+      alert('Archived hunts imported successfully');
+    };
+    reader.readAsText(file);
+  }
+
+  // Importing Active
+  const importActiveFileInputRef = useRef(null);
+
+  const handleImportActiveClick = () => {
+    importActiveFileInputRef.current.click();  // Trigger the file input click when button is pressed
+  };
+
+  // Importing Archived
+  const importArchivedFileInputRef = useRef(null);
+
+  const handleImportArchivedClick = () => {
+    importArchivedFileInputRef.current.click();  // Trigger the file input click when button is pressed
+  };
+
   return (
     <div>
       <div className='button-container' style={{ position: 'relative' }}>
 
-        <button className='new-counter-button' onClick={addCounter}>
-          New Shiny Hunt
-        </button>
+        <button className='new-counter-button' onClick={addCounter}> New Shiny Hunt </button>
 
-        <button className='toggle-archive-button' onClick={showArchiveMenu}>
-          {'Show Archives'}
-        </button>
+        <button className='toggle-archive-button' onClick={showArchiveMenu}> Show Archives </button>
+
+        <MdOutlineSettingsSuggest
+          style={{
+            fontSize: '2rem',
+            marginLeft: '8px',
+            cursor: 'pointer',
+            marginBottom: '-0.45%'
+          }}
+          onClick={toggleShowExportSettings} />
+
       </div>
+
+      {showExportSettings &&(
+        <div className='export-settings-container'>
+
+          <button className='export-active-button' onClick={exportActiveHunts}> Export Active Hunts </button>
+
+          <button className='import-active-button' onClick={handleImportActiveClick}> Import Active Hunts </button>
+
+          <button className='export-archived-button' onClick={exportArchivedHunts}> Export Archived Hunts </button>
+
+          <button className='import-archived-button' onClick={handleImportArchivedClick}> Import Archived Hunts </button>
+
+          {/* Invisible File Input for Import Active */}
+          <input
+            type="file"
+            accept=".json"
+            ref={importActiveFileInputRef}
+            style={{ display: 'none' }}
+            onChange={importActiveHunts}
+          />
+
+          {/* Invisible File Input for Import Archived */}
+          <input
+            type="file"
+            accept=".json"
+            ref={importArchivedFileInputRef}
+            style={{ display: 'none' }}
+            onChange={importArchivedHunts}
+          />
+        </div>
+      )}
 
       <div className="counters-container">
         {counters.map(counter => (
@@ -260,85 +369,91 @@ export default function CounterMaker() {
         ))}
       </div>
 
-      {showArchives && (
-        <div className="archives-overlay" onClick={() => setShowArchives(false)}>
-          <div className="archives-modal" onClick={(e) => e.stopPropagation()}> {/* Prevent modal close on content click */}
-            <h3>Archived Hunts</h3>
-            <button className="close-archive" onClick={closeArchiveMenu}>Close</button>
+      {
+        showArchives && (
+          <div className="archives-overlay" onClick={() => setShowArchives(false)}>
+            <div className="archives-modal" onClick={(e) => e.stopPropagation()}> {/* Prevent modal close on content click */}
+              <h3>Archived Hunts</h3>
+              <button className="close-archive" onClick={closeArchiveMenu}>Close</button>
 
-            <div className='search-container'>
-              <button className='stats-button' onClick={showStatsMenu}>Show Stats</button>
+              <div className='search-container'>
+                <button className='stats-button' onClick={showStatsMenu}>Show Stats</button>
 
-              <div className="sort-buttons">
-                <button onClick={() => handleSort('name')}>Sort by Name</button>
-                <button onClick={() => handleSort('time')}>Sort by Time</button>
-                <button onClick={() => handleSort('encounters')}>Sort by Encounters</button>
-                <button onClick={() => handleSort('date')}>Sort by Date</button>
-                <button onClick={() => handleSort('odds')}>Sort by Odds</button>
+                <div className="sort-buttons">
+                  <button onClick={() => handleSort('name')}>Sort by Name</button>
+                  <button onClick={() => handleSort('time')}>Sort by Time</button>
+                  <button onClick={() => handleSort('encounters')}>Sort by Encounters</button>
+                  <button onClick={() => handleSort('date')}>Sort by Date</button>
+                  <button onClick={() => handleSort('odds')}>Sort by Odds</button>
+                </div>
+
+
+                {/* Search Input */}
+                <input
+                  type="text"
+                  placeholder="Search Archived Hunts"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
               </div>
 
+              {/* Render Filtered Hunts */}
+              {filteredArchivedHunts.length === 0 ? (
+                <p>No matching archived hunts</p>
+              ) : (
+                <ul>
+                  {filteredArchivedHunts.map(hunt => (
+                    <div key={hunt.id} className='archived-hunt'>
+                      <button className="delete-hunt-button" onClick={() => confirmDelete(hunt.id)}>X</button>
+                      <h4>{hunt.title}</h4>
+                      <p>Pokémon: {pokemonOptions.find(pokemon => pokemon.value === hunt.selectedPokemon)?.label || 'Unknown Pokémon'}</p>
+                      <p>Encounters: {hunt.value}</p>
+                      <p>Odds: 1 in {hunt.odds}</p>
+                      <p>Timer: {formatTime(hunt.timer)}</p>
+                      <p>Date Archived: {new Date(hunt.date).toLocaleDateString()}</p>
+                      <button className='restore-button' onClick={() => restoreHunt(hunt.id)}>Restore</button>
+                    </div>
+                  ))}
+                </ul>
+              )}
 
-              {/* Search Input */}
-              <input
-                type="text"
-                placeholder="Search Archived Hunts"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
             </div>
-
-            {/* Render Filtered Hunts */}
-            {filteredArchivedHunts.length === 0 ? (
-              <p>No matching archived hunts</p>
-            ) : (
-              <ul>
-                {filteredArchivedHunts.map(hunt => (
-                  <div key={hunt.id} className='archived-hunt'>
-                    <button className="delete-hunt-button" onClick={() => confirmDelete(hunt.id)}>X</button>
-                    <h4>{hunt.title}</h4>
-                    <p>Pokémon: {pokemonOptions.find(pokemon => pokemon.value === hunt.selectedPokemon)?.label || 'Unknown Pokémon'}</p>
-                    <p>Encounters: {hunt.value}</p>
-                    <p>Odds: 1 in {hunt.odds}</p>
-                    <p>Timer: {formatTime(hunt.timer)}</p>
-                    <p>Date Archived: {new Date(hunt.date).toLocaleDateString()}</p>
-                    <button className='restore-button' onClick={() => restoreHunt(hunt.id)}>Restore</button>
-                  </div>
-                ))}
-              </ul>
-            )}
-
           </div>
-        </div>
-      )}
+        )
+      }
 
-      {showStats && stats && (
-        <div className="stats-overlay" onClick={() => setShowStats(false)}>
-          <div className="stats-modal" onClick={(e) => e.stopPropagation()}>
-            <h4>Shiny Hunt Stats</h4>
-            <p>Total Hunts Completed: {stats.totalHunts}</p>
-            <p>Total Encounters Completed: {stats.totalEncountersCompleted}</p>
-            <p>Total Time Spent: {formatTime(stats?.totalTimeSpent)}</p>
-            <p>Shortest Hunt by Encounters: {stats.fastestByEncounters?.title} ({stats.fastestByEncounters?.value} encounters)</p>
-            <p>Longest Hunt by Encounters: {stats.longestByEncounters?.title} ({stats.longestByEncounters?.value} encounters)</p>
-            <p>Shortest Time Spent on a Hunt: {stats.fastestByTimer?.title} ({formatTime(stats.fastestByTimer?.timer)})</p>
-            <p>Longest Time Spent on a Hunt: {stats.longestByTimer?.title} ({formatTime(stats.longestByTimer?.timer)})</p>
-            <p>Luckiest Hunt: {stats.lowestProbabilityHunt?.title} {pokemonOptions.find(p => p.value === stats.lowestProbabilityHunt?.selectedPokemon)?.label || 'Unknown Pokémon'} ({(stats.lowestProbabilityHunt?.probability * 100).toFixed(2)}% chance to shine)</p>
-            <p>Unluckiest Hunt: {stats.highestProbabilityHunt?.title} {pokemonOptions.find(p => p.value === stats.highestProbabilityHunt?.selectedPokemon)?.label || 'Unknown Pokémon'} ({(stats.highestProbabilityHunt?.probability * 100).toFixed(2)}%)</p>
-            <button onClick={closeStatsMenu}>Close</button>
+      {
+        showStats && stats && (
+          <div className="stats-overlay" onClick={() => setShowStats(false)}>
+            <div className="stats-modal" onClick={(e) => e.stopPropagation()}>
+              <h4>Shiny Hunt Stats</h4>
+              <p>Total Hunts Completed: {stats.totalHunts}</p>
+              <p>Total Encounters Completed: {stats.totalEncountersCompleted}</p>
+              <p>Total Time Spent: {formatTime(stats?.totalTimeSpent)}</p>
+              <p>Shortest Hunt by Encounters: {stats.fastestByEncounters?.title} ({stats.fastestByEncounters?.value} encounters)</p>
+              <p>Longest Hunt by Encounters: {stats.longestByEncounters?.title} ({stats.longestByEncounters?.value} encounters)</p>
+              <p>Shortest Time Spent on a Hunt: {stats.fastestByTimer?.title} ({formatTime(stats.fastestByTimer?.timer)})</p>
+              <p>Longest Time Spent on a Hunt: {stats.longestByTimer?.title} ({formatTime(stats.longestByTimer?.timer)})</p>
+              <p>Luckiest Hunt: {stats.lowestProbabilityHunt?.title} {pokemonOptions.find(p => p.value === stats.lowestProbabilityHunt?.selectedPokemon)?.label || 'Unknown Pokémon'} ({(stats.lowestProbabilityHunt?.probability * 100).toFixed(2)}% chance to shine)</p>
+              <p>Unluckiest Hunt: {stats.highestProbabilityHunt?.title} {pokemonOptions.find(p => p.value === stats.highestProbabilityHunt?.selectedPokemon)?.label || 'Unknown Pokémon'} ({(stats.highestProbabilityHunt?.probability * 100).toFixed(2)}%)</p>
+              <button onClick={closeStatsMenu}>Close</button>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
-      {showConfirm && (
-        <div className="confirm-overlay" onClick={() => setShowConfirm(false)}>
-          <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
-            <h4>Are you sure you want to delete this hunt?</h4>
-            <button onClick={handleDelete}>Yes, Delete</button>
-            <button onClick={() => setShowConfirm(false)}>Cancel</button>
+      {
+        showConfirm && (
+          <div className="confirm-overlay" onClick={() => setShowConfirm(false)}>
+            <div className="confirm-modal" onClick={(e) => e.stopPropagation()}>
+              <h4>Are you sure you want to delete this hunt?</h4>
+              <button onClick={handleDelete}>Yes, Delete</button>
+              <button onClick={() => setShowConfirm(false)}>Cancel</button>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
-    </div>
+    </div >
   );
 }

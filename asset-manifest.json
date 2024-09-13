@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ShinyTally/static/css/main.2b567f6c.css",
-    "main.js": "/ShinyTally/static/js/main.cad2df3d.js",
+    "main.css": "/ShinyTally/static/css/main.025f93c3.css",
+    "main.js": "/ShinyTally/static/js/main.8040fc13.js",
     "static/media/archive-sound.mp3": "/ShinyTally/static/media/archive-sound.56be1fa72fa6e2943378.mp3",
     "static/media/tally-click.mp3": "/ShinyTally/static/media/tally-click.53f9ff2bc647b31cf8cd.mp3",
     "static/media/delete.mp3": "/ShinyTally/static/media/delete.8a0b454eac52e647b2bd.mp3",
@@ -12,11 +12,11 @@
     "static/media/restore.mp3": "/ShinyTally/static/media/restore.90f8a2114ea0e442934b.mp3",
     "static/media/open_menu.mp3": "/ShinyTally/static/media/open_menu.a194cd079a32d8ca571b.mp3",
     "index.html": "/ShinyTally/index.html",
-    "main.2b567f6c.css.map": "/ShinyTally/static/css/main.2b567f6c.css.map",
-    "main.cad2df3d.js.map": "/ShinyTally/static/js/main.cad2df3d.js.map"
+    "main.025f93c3.css.map": "/ShinyTally/static/css/main.025f93c3.css.map",
+    "main.8040fc13.js.map": "/ShinyTally/static/js/main.8040fc13.js.map"
   },
   "entrypoints": [
-    "static/css/main.2b567f6c.css",
-    "static/js/main.cad2df3d.js"
+    "static/css/main.025f93c3.css",
+    "static/js/main.8040fc13.js"
   ]
 }

@@ -319,17 +319,18 @@ export default function CounterMaker() {
 
         <MdOutlineSettingsSuggest
           style={{
+            position: 'absolute',
             fontSize: '2rem',
-            marginLeft: '8px',
+            right: '220px',
+            top: '50%',
+            transform: 'translateY(-50%)',
             cursor: 'pointer',
-            marginBottom: '-0.45%',
-            marginLeft: '68.5%',
           }}
           onClick={toggleShowExportSettings} />
 
       </div>
 
-      {showExportSettings &&(
+      {showExportSettings && (
         <div className='export-settings-container'>
 
           <button className='export-active-button' onClick={exportActiveHunts}> Export Active Hunts </button>

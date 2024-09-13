@@ -6,6 +6,12 @@ body {
   background-color: #f4f4f4;
 }
 
+.button-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
 /* Parent Container for Counters */
 .counters-container {
   display: flex;

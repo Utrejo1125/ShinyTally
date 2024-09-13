@@ -207,6 +207,23 @@ function Counter({ counter, onDelete }) {
     db.archivedHunts.toArray().then(setArchivedHunts).catch(console.error);
   }, []);
 
+  const handleMultiHunt = async () => {
+    archiveSoundRef.current.play();
+
+    // Save the current hunt in an archive table or a "completed" state in your DB
+    db.archivedHunts.add({
+      title,
+      selectedPokemon,
+      value,
+      odds,
+      timer,
+      date: new Date(), // Optional: Archive date
+    });
+
+    handleReset();
+    handleResetTimer();
+  }
+
   //Inline Styling for Select
   const customSelectStyles = {
     control: (provided) => ({
@@ -330,6 +347,11 @@ function Counter({ counter, onDelete }) {
       {isShiny && (
         <button className='archive-button' onClick={handleArchive}>
           Archive Hunt
+        </button>
+      )}
+      {isShiny && (
+        <button className='multi-hunt-button' onClick={handleMultiHunt}>
+          Multi Hunt
         </button>
       )}
 

@@ -322,7 +322,8 @@ export default function CounterMaker() {
             fontSize: '2rem',
             marginLeft: '8px',
             cursor: 'pointer',
-            marginBottom: '-0.45%'
+            marginBottom: '-0.45%',
+            marginLeft: '68.5%',
           }}
           onClick={toggleShowExportSettings} />
 

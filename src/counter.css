@@ -350,6 +350,29 @@
   transform: scale(0.98);
 }
 
+.multi-hunt-button {
+  font-size: 1.2rem;
+  padding: 10px 25px;
+  background-color: #7528a8;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-left: 5px;
+}
+
+.multi-hunt-button:hover {
+  background-color: #33094f;
+  transform: scale(1.05);
+}
+
+.multi-hunt-button:active {
+  background-color: #200533;
+  transform: scale(0.98);
+}
+
 .input-style {
   width: 100%;
   margin-top: 10px;
